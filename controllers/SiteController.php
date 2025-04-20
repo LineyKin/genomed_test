@@ -2,41 +2,15 @@
 
 namespace app\controllers;
 
+use app\helpers\DebugHelper;
+use app\models\ShortLink;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+
 
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * {@inheritdoc}
@@ -46,10 +20,6 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }
@@ -64,8 +34,26 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionLink(): string
+    public function actionLink()
     {
-        return json_encode('action link');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $model = new ShortLink();
+        $model->original_url = Yii::$app->request->post('link');
+        if(!$model->validate()) {
+            Yii::$app->response->statusCode = 400;
+            return Yii::$app->response->data = [
+                'message' => $model->getErrors(),
+            ];
+        }
+
+        $model->short_code = ShortLink::generateShortCode();
+
+        $model->save();
+
+        return Yii::$app->response->data = [
+            'original_link' => $model->original_url,
+            'short_link' => Yii::$app->urlManager->createAbsoluteUrl(['go/' . $model->short_code])
+        ];
     }
 }
