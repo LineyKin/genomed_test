@@ -13,7 +13,7 @@ class m250420_182509_create_redirects_table extends Migration
             'id' => $this->primaryKey(),
             'ip' => $this->string(15)->notNull(),
             'short_link_id' => $this->integer(),
-            'created_at' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
     }
 

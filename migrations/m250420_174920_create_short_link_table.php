@@ -13,8 +13,8 @@ class m250420_174920_create_short_link_table extends Migration
             'id' => $this->primaryKey(),
             'original_url' => $this->string(512)->notNull(),
             'short_code' => $this->string(10)->unique()->notNull(),
-            'redirects_count' => $this->integer(),
-            'created_at' => $this->timestamp(),
+            'redirects_count' => $this->integer()->notNull()->defaultValue(0),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
     }
 
