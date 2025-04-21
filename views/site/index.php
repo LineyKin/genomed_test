@@ -4,5 +4,5 @@
 
 $this->title = 'Genomed test';
 ?>
-<span>Короткая ссылка: </span>
+<span id="short_link_label">Короткая ссылка: </span>
 <a id="short_link" target="_blank"></a>

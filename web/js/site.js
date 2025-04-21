@@ -9,6 +9,7 @@ $('#sendLink').on('click', function() {
             let shortLink = $("#short_link");
             shortLink.attr("href", response.short_link)
             shortLink.html(response.short_link)
+            $("#short_link_label").show()
         },
         error: function (errorResponse) {
             console.log("ERROR")

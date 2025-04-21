@@ -86,3 +86,7 @@ a.desc:after {
 .form-group {
     margin-bottom: 1rem;
 }
+
+#short_link_label {
+    display: none;
+}
