@@ -2,12 +2,14 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 class ShortLink extends ActiveRecord
 {
 
     const CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const SHORT_CODE_LENGTH = 6;
 
     public function rules(): array
     {
@@ -21,14 +23,50 @@ class ShortLink extends ActiveRecord
         return 'short_link';
     }
 
-    public static function generateShortCode($length = 6): string
+    /**
+     * генерирует код сокращённой ссылки
+     * @return string
+     */
+    public static function generateShortCode(): string
     {
         $code = '';
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < self::SHORT_CODE_LENGTH; $i++) {
             $code .= self::CHARACTERS[rand(0, strlen(self::CHARACTERS) - 1)];
         }
 
         return $code;
+    }
+
+    /**
+     * создаёт сокращённую ссылку
+     *
+     * @return string
+     */
+    public function create(): string
+    {
+        return Yii::$app->urlManager->createAbsoluteUrl(['go/' . $this->short_code]);
+    }
+
+    /**
+     * проверяет short_code на уникальность
+     *
+     * @param $insert
+     * @return bool
+     */
+    public function beforeSave($insert): bool
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                do {
+                    $this->short_code = self::generateShortCode();
+                }
+                while (self::find()->where(['short_code' => $this->short_code])->exists());
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -47,13 +47,11 @@ class SiteController extends Controller
             ];
         }
 
-        $model->short_code = ShortLink::generateShortCode();
-
         $model->save();
 
         return Yii::$app->response->data = [
             'original_link' => $model->original_url,
-            'short_link' => Yii::$app->urlManager->createAbsoluteUrl(['go/' . $model->short_code])
+            'short_link' => $model->create()
         ];
     }
 }
