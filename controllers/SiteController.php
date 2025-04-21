@@ -47,7 +47,9 @@ class SiteController extends Controller
             ];
         }
 
-        $model->save();
+        if (!$model->checkOriginalUrl()) {
+            $model->save();
+        }
 
         return Yii::$app->response->data = [
             'original_link' => $model->original_url,

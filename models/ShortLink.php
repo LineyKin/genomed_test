@@ -39,6 +39,23 @@ class ShortLink extends ActiveRecord
     }
 
     /**
+     * Проверяет есть ли в базе оригинальная ссылка.
+     * Если есть - берёт код сокращённой ссылки оттуда
+     *
+     * @return bool
+     */
+    public function checkOriginalUrl(): bool
+    {
+        $data = self::find()->where(['original_url' => $this->original_url])->one();
+        if(is_null($data)) {
+            return false;
+        }
+
+        $this->short_code = $data->short_code;
+        return true;
+    }
+
+    /**
      * создаёт сокращённую ссылку
      *
      * @return string

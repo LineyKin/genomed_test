@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 
-$this->title = 'My Yii Application';
+$this->title = 'Genomed test';
 ?>
-
-<h2>QR and short link wil be here</h2>
+<span>Короткая ссылка: </span>
+<a id="short_link" target="_blank"></a>

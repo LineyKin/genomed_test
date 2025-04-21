@@ -6,8 +6,9 @@ $('#sendLink').on('click', function() {
             link: $("#link").val()
         },
         success: function (response) {
-            console.log("OK")
-            console.log(response)
+            let shortLink = $("#short_link");
+            shortLink.attr("href", response.short_link)
+            shortLink.html(response.short_link)
         },
         error: function (errorResponse) {
             console.log("ERROR")
