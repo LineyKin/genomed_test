@@ -1,4 +1,7 @@
 $('#sendLink').on('click', function() {
+    let shortLinkError = $("#short_link_error");
+    let shortLink = $("#short_link");
+    let shortLinkLabel = $("#short_link_label")
     $.ajax({
         type: "POST",
         url: "site/link",
@@ -6,14 +9,17 @@ $('#sendLink').on('click', function() {
             link: $("#link").val()
         },
         success: function (response) {
-            let shortLink = $("#short_link");
             shortLink.attr("href", response.short_link)
             shortLink.html(response.short_link)
-            $("#short_link_label").show()
+            shortLinkLabel.show()
+            shortLink.show()
+            shortLinkError.hide()
         },
         error: function (errorResponse) {
-            console.log("ERROR")
-            console.log(errorResponse)
+            shortLinkError.html(errorResponse.responseJSON.message)
+            shortLinkError.show()
+            shortLinkLabel.hide()
+            shortLink.hide()
         }
     })
 });

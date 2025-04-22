@@ -43,7 +43,14 @@ class SiteController extends Controller
         if(!$model->validate()) {
             Yii::$app->response->statusCode = 400;
             return Yii::$app->response->data = [
-                'message' => $model->getErrors(),
+                'message' => 'Ссылка не валидна',
+            ];
+        }
+
+        if (!$model->checkUrlAvailability()) {
+            Yii::$app->response->statusCode = 400;
+            return Yii::$app->response->data = [
+                'message' => 'Данный URL не доступен',
             ];
         }
 

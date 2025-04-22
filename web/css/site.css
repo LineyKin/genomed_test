@@ -90,3 +90,7 @@ a.desc:after {
 #short_link_label {
     display: none;
 }
+
+#short_link_error {
+    display: none;
+}
