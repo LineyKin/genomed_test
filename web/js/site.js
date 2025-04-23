@@ -1,7 +1,7 @@
 $('#sendLink').on('click', function() {
     let shortLinkError = $("#short_link_error");
     let shortLink = $("#short_link");
-    let shortLinkLabel = $("#short_link_label")
+    let shortLinkWrap = $("#short_link_wrap");
     let originalUrl = $("#link").val()
     let qr = $('#qrcode')
 
@@ -14,16 +14,14 @@ $('#sendLink').on('click', function() {
         success: function (response) {
             shortLink.attr("href", response.short_link)
             shortLink.html(response.short_link)
-            shortLinkLabel.show()
-            shortLink.show()
+            shortLinkWrap.show()
             shortLinkError.hide()
             qr.qrcode(originalUrl);
         },
         error: function (errorResponse) {
             shortLinkError.html(errorResponse.responseJSON.message)
             shortLinkError.show()
-            shortLinkLabel.hide()
-            shortLink.hide()
+            shortLinkWrap.hide()
             qr.empty()
         }
     })

@@ -29,7 +29,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
-<div class="container">
+<div class="container text-center">
+    <h3>Сервис коротких ссылок и генерации QR</h3>
     <div class="input-group">
         <input id="link" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
         <button id="sendLink" class="btn btn-primary">OK</button>

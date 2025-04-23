@@ -87,10 +87,11 @@ a.desc:after {
     margin-bottom: 1rem;
 }
 
-#short_link_label {
+
+#short_link_error, #short_link_wrap {
     display: none;
 }
 
-#short_link_error {
-    display: none;
-}
+#short_link_wrap {
+    margin-bottom: 100px!important;
+ }
